@@ -57,140 +57,211 @@ CREATE TABLE IF NOT EXISTS Grades (
 
 # Сохранение изменений
 conn.commit()
-conn.close()
 
-print("База данных и таблицы успешно созданы!")
 def create_connection():
     conn = sqlite3.connect('university.db')
     return conn
 
-def add_student(conn, name, surname, Department, DateOfBirth):
-    cursor = conn.cursor
-    cursor.execute('''INSERT INTO Students (name, surname, Department, DateOfBirth) VALUES (?, ?, ?, ?)''', (name, surname, Department, DateOfBirth))
-    conn.commit()
+def add_student(conn, name, surname, department, date_of_birth):
+    try:
+        cursor = conn.cursor()
+        cursor.execute('''INSERT INTO Students (Name, Surname, Department, DateOfBirth) VALUES (?, ?, ?, ?)''', (name, surname, department, date_of_birth))
+        conn.commit()
+        print("Студент добавлен успешно!")
+    except sqlite3.Error as e:
+        print(f"Ошибка добавления студента: {e}")
 
-def add_teacher(conn, name, surname, Department):
-    cursor = conn.cursor
-    cursor.execute('''INSERT INTO Teachers (name, surname, Department) VALUES (?, ?, ?)''', (name, surname, Department))
-    conn.commit()
+def add_teacher(conn, name, surname, department):
+    try:
+        cursor = conn.cursor()
+        cursor.execute('''INSERT INTO Teachers (Name, Surname, Department) VALUES (?, ?, ?)''', (name, surname, department))
+        conn.commit()
+        print("Преподаватель добавлен успешно!")
+    except sqlite3.Error as e:
+        print(f"Ошибка добавления преподавателя: {e}")
 
 def add_course(conn, title, description, teacher_id):
-    cursor = conn.cursor
-    cursor.execute('''INSERT INTO Courses (title, description, teacher_id) VALUES (?, ?, ?)''', (title, description, teacher_id))
-    conn.commit()
+    try:
+        cursor = conn.cursor()
+        cursor.execute('''INSERT INTO Courses (Title, Description, TeacherID) VALUES (?, ?, ?)''', (title, description, teacher_id))
+        conn.commit()
+        print("Курс добавлен успешно!")
+    except sqlite3.Error as e:
+        print(f"Ошибка добавления курса: {e}")
 
 def add_exam(conn, date, course_id, max_score):
-    cursor = conn.cursor
-    cursor.execute('''INSERT INTO Exams (date, course_id, max_score) VALUES (?, ?, ?)''', (date, course_id, max_score))
-    conn.commit()
+    try:
+        cursor = conn.cursor()
+        cursor.execute('''INSERT INTO Exams (Date, CourseID, MaxScore) VALUES (?, ?, ?)''', (date, course_id, max_score))
+        conn.commit()
+        print("Экзамен добавлен успешно!")
+    except sqlite3.Error as e:
+        print(f"Ошибка добавления экзамена: {e}")
 
 def add_grade(conn, student_id, exam_id, score):
-    cursor = conn.cursor
-    cursor.execute('''INSERT INTO Grades (student_id, exam_id, score) VALUES (?, ?, ?)''', (student_id, exam_id, score))
-    conn.commit()
+    try:
+        cursor = conn.cursor()
+        cursor.execute('''INSERT INTO Grades (StudentID, ExamID, Score) VALUES (?, ?, ?)''', (student_id, exam_id, score))
+        conn.commit()
+        print("Оценка добавлена успешно!")
+    except sqlite3.Error as e:
+        print(f"Ошибка добавления оценки: {e}")
 
 def update_student(conn, student_id, name, surname, department, date_of_birth):
-    cursor = conn.cursor()
-    cursor.execute('''UPDATE Students
-                      SET Name = ?, Surname = ?, Department = ?, DateOfBirth = ?
-                      WHERE ID = ?''', (name, surname, department, date_of_birth, student_id))
-    conn.commit()
+    try:
+        cursor = conn.cursor()
+        cursor.execute('''UPDATE Students
+                          SET Name = ?, Surname = ?, Department = ?, DateOfBirth = ?
+                          WHERE ID = ?''', (name, surname, department, date_of_birth, student_id))
+        conn.commit()
+        print("Информация о студенте обновлена успешно!")
+    except sqlite3.Error as e:
+        print(f"Ошибка обновления информации о студенте: {e}")
 
 def update_teacher(conn, teacher_id, name, surname, department):
-    cursor = conn.cursor()
-    cursor.execute('''UPDATE Teachers
-                      SET Name = ?, Surname = ?, Department = ?
-                      WHERE ID = ?''', (name, surname, department, teacher_id))
-    conn.commit()
+    try:
+        cursor = conn.cursor()
+        cursor.execute('''UPDATE Teachers
+                          SET Name = ?, Surname = ?, Department = ?
+                          WHERE ID = ?''', (name, surname, department, teacher_id))
+        conn.commit()
+        print("Информация о преподавателе обновлена успешно!")
+    except sqlite3.Error as e:
+        print(f"Ошибка обновления информации о преподавателе: {e}")
 
 def update_course(conn, course_id, title, description, teacher_id):
-    cursor = conn.cursor()
-    cursor.execute('''UPDATE Courses
-                      SET Title = ?, Description = ?, TeacherID = ?
-                      WHERE ID = ?''', (title, description, teacher_id, course_id))
-    conn.commit()
+    try:
+        cursor = conn.cursor()
+        cursor.execute('''UPDATE Courses
+                          SET Title = ?, Description = ?, TeacherID = ?
+                          WHERE ID = ?''', (title, description, teacher_id, course_id))
+        conn.commit()
+        print("Информация о курсе обновлена успешно!")
+    except sqlite3.Error as e:
+        print(f"Ошибка обновления информации о курсе: {e}")
 
 def delete_student(conn, student_id):
-    cursor = conn.cursor()
-    cursor.execute('''DELETE FROM Students WHERE ID = ?''', (student_id,))
-    conn.commit()
+    try:
+        cursor = conn.cursor()
+        cursor.execute('''DELETE FROM Students WHERE ID = ?''', (student_id,))
+        conn.commit()
+        print("Студент удален успешно!")
+    except sqlite3.Error as e:
+        print(f"Ошибка удаления студента: {e}")
 
 def delete_teacher(conn, teacher_id):
-    cursor = conn.cursor()
-    cursor.execute('''DELETE FROM Teachers WHERE ID = ?''', (teacher_id,))
-    conn.commit()
+    try:
+        cursor = conn.cursor()
+        cursor.execute('''DELETE FROM Teachers WHERE ID = ?''', (teacher_id,))
+        conn.commit()
+        print("Преподаватель удален успешно!")
+    except sqlite3.Error as e :
+        print(f"Ошибка удаления преподавателя: {e}")
 
 def delete_course(conn, course_id):
-    cursor = conn.cursor()
-    cursor.execute('''DELETE FROM Courses WHERE ID = ?''', (course_id,))
-    conn.commit()
+    try:
+        cursor = conn.cursor()
+        cursor.execute('''DELETE FROM Courses WHERE ID = ?''', (course_id,))
+        conn.commit()
+        print("Курс удален успешно!")
+    except sqlite3.Error as e:
+        print(f"Ошибка удаления курса: {e}")
 
 def delete_exam(conn, exam_id):
-    cursor = conn.cursor()
-    cursor.execute('''DELETE FROM Exams WHERE ID = ?''', (exam_id,))
-    conn.commit()
+    try:
+        cursor = conn.cursor()
+        cursor.execute('''DELETE FROM Exams WHERE ID = ?''', (exam_id,))
+        conn.commit()
+        print("Экзамен удален успешно!")
+    except sqlite3.Error as e:
+        print(f"Ошибка удаления экзамена: {e}")
 
 def get_students_by_department(conn, department):
-    cursor = conn.cursor()
-    cursor.execute('''SELECT * FROM Students WHERE Department = ?''', (department,))
-    return cursor.fetchall()
+    try:
+        cursor = conn.cursor()
+        cursor.execute('''SELECT * FROM Students WHERE Department = ?''', (department,))
+        return cursor.fetchall()
+    except sqlite3.Error as e:
+        print(f"Ошибка получения списка студентов по факультету: {e}")
+        return []
 
 def get_courses_by_teacher(conn, teacher_id):
-    cursor = conn.cursor()
-    cursor.execute('''SELECT * FROM Courses WHERE TeacherID = ?''', (teacher_id,))
-    return cursor.fetchall()
+    try:
+        cursor = conn.cursor()
+        cursor.execute('''SELECT * FROM Courses WHERE TeacherID = ?''', (teacher_id,))
+        return cursor.fetchall()
+    except sqlite3.Error as e:
+        print(f"Ошибка получения списка курсов преподавателя: {e}")
+        return []
 
 def get_students_by_course(conn, course_id):
-    cursor = conn.cursor()
-    cursor.execute('''SELECT Students.* FROM Students
-                      JOIN Grades ON Students.ID = Grades.StudentID
-                      JOIN Exams ON Grades.ExamID = Exams.ID
-                      WHERE Exams.CourseID = ?''', (course_id,))
-    return cursor.fetchall()
+    try:
+        cursor = conn.cursor()
+        cursor.execute('''SELECT Students.* FROM Students
+                          JOIN Grades ON Students.ID = Grades.StudentID
+                          JOIN Exams ON Grades.ExamID = Exams.ID
+                          WHERE Exams.CourseID = ?''', (course_id,))
+        return cursor.fetchall()
+    except sqlite3.Error as e:
+        print(f"Ошибка получения списка студентов по курсу: {e}")
+        return []
 
 def get_grades_by_course(conn, course_id):
-    cursor = conn.cursor()
-    cursor.execute('''SELECT Grades.* FROM Grades
-                      JOIN Exams ON Grades.ExamID = Exams.ID
-                      WHERE Exams.CourseID = ?''', (course_id,))
-    return cursor.fetchall()
+    try:
+        cursor = conn.cursor()
+        cursor.execute('''SELECT Grades.* FROM Grades
+                          JOIN Exams ON Grades.ExamID = Exams.ID
+                          WHERE Exams.CourseID = ?''', (course_id,))
+        return cursor.fetchall()
+    except sqlite3.Error as e:
+        print(f"Ошибка получения списка оценок по курсу: {e}")
+        return []
 
 def get_average_grade_by_course(conn, student_id, course_id):
-    cursor = conn.cursor()
-    cursor.execute('''SELECT AVG(Grades.Score) FROM Grades
-                      JOIN Exams ON Grades.ExamID = Exams.ID
-                      WHERE Grades.StudentID = ? AND Exams.CourseID = ?''', (student_id, course_id))
-    return cursor.fetchone()[0]
+    try:
+        cursor = conn.cursor()
+        cursor.execute('''SELECT AVG(Grades.Score) FROM Grades
+                          JOIN Exams ON Grades.ExamID = Exams.ID
+                          WHERE Grades.StudentID = ? AND Exams.CourseID = ?''', (student_id, course_id))
+        return cursor.fetchone()[0]
+    except sqlite3.Error as e:
+        print(f"Ошибка получения среднего балла студента по курсу: {e}")
+        return None
 
 def get_average_grade(conn, student_id):
-    cursor = conn.cursor()
-    cursor.execute('''SELECT AVG(Score) FROM Grades WHERE StudentID = ?''', (student_id,))
-    return cursor.fetchone()[0]
+    try:
+        cursor = conn.cursor()
+        cursor.execute('''SELECT AVG(Score) FROM Grades WHERE StudentID = ?''', (student_id,))
+        return cursor.fetchone()[0]
+    except sqlite3.Error as e:
+        print(f"Ошибка получения среднего балла студента: {e}")
+        return None
 
 def get_average_grade_by_department(conn, department):
-    cursor = conn.cursor()
-    cursor.execute('''SELECT AVG(Grades.Score) FROM Grades
-                      JOIN Students ON Grades.StudentID = Students.ID
-                      WHERE Students.Department = ?''', (department,))
-    return cursor.fetchone()[0]
+    try:
+        cursor = conn.cursor()
+        cursor.execute('''SELECT AVG(Grades.Score) FROM Grades
+                          JOIN Students ON Grades.StudentID = Students.ID
+                          WHERE Students.Department = ?''', (department,))
+        return cursor.fetchone()[0]
+    except sqlite3.Error as e:
+        print(f"Ошибка получения среднего балла по факультету: {e}")
+        return None
 
 def main():
     conn = create_connection()
-    create_tables(conn)
-
-
-while True:
+    while True:
         print("Выберите действие:")
-        print("1. Добавить студика")
-        print("2. Добавить препода")
+        print("1. Добавить студента")
+        print("2. Добавить преподавателя")
         print("3. Добавить курс")
         print("4. Добавить экзамен")
         print("5. Добавить оценку")
         print("6. Изменить информацию о студенте")
-        print("7. Изменить информацию о преподе")
+        print("7. Изменить информацию о преподавателе")
         print("8. Изменить информацию о курсе")
         print("9. Удалить студента")
-        print("10. Удалить препода")
+        print("10. Удалить преподавателя")
         print("11. Удалить курс")
         print("12. Удалить экзамен")
         print("13. Получить список студентов по факультету")
@@ -204,7 +275,7 @@ while True:
 
         choice = input("Введите номер действия: ")
 
-if choice == '1':
+        if choice == '1':
             name = input("Введите имя: ")
             surname = input("Введите фамилию: ")
             department = input("Введите факультет: ")
@@ -242,7 +313,7 @@ if choice == '1':
             name = input("Введите имя: ")
             surname = input("Введите фамилию: ")
             department = input("Введите кафедру: ")
-            update_teacher(conn, teacher_id, name, surname,department)
+            update_teacher(conn, teacher_id, name, surname, department)
         elif choice == '8':
             course_id = input("Введите ID курса: ")
             title = input("Введите название курса: ")
@@ -285,26 +356,31 @@ if choice == '1':
             student_id = input("Введите ID студента: ")
             course_id = input("Введите ID курса: ")
             avg_grade = get_average_grade_by_course(conn, student_id, course_id)
-            print(f"Средний балл студента по курсу: {avg_grade}")
+            if avg_grade is not None:
+                print(f"Средний балл студента по курсу: {avg_grade}")
+            else:
+                print("Ошибка получения среднего балла студента по курсу")
         elif choice == '18':
             student_id = input("Введите ID студента: ")
-
-
-avg_grade = get_average_grade(conn, student_id)
-            print(f"Средний балл студента в целом: {avg_grade}")
+            avg_grade = get_average_grade(conn, student_id)
+            if avg_grade is not None:
+                print(f"Средний балл студента в целом: {avg_grade}")
+            else:
+                print("Ошибка получения среднего балла студента")
         elif choice == '19':
             department = input("Введите факультет: ")
             avg_grade = get_average_grade_by_department(conn, department)
-            print(f"Средний балл по факультету: {avg_grade}")
+            if avg_grade is not None:
+                print(f"Средний балл по факультету: {avg_grade}")
+            else:
+                print("Ошибка получения среднего балла по факультету")
         elif choice == '20':
             print("Выход из программы.")
             break
         else:
-            print("Неккоректынй выбор")
+            print("Некорректный выбор")
 
     conn.close()
 
-
-if name == "__main__":
+if __name__ == "__main__":
     main()
-
